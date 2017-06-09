@@ -211,7 +211,16 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\FamousQuoteQuiz.Data\FamousQuoteQuiz.Data.csproj">
+      <Project>{85730e27-b973-425d-98a1-e8ffed94c3c1}</Project>
+      <Name>FamousQuoteQuiz.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FamousQuoteQuiz.Models\FamousQuoteQuiz.Models.csproj">
+      <Project>{b11b624b-c9a7-4303-acc9-fa998676145d}</Project>
+      <Name>FamousQuoteQuiz.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

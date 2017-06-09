@@ -10,7 +10,7 @@ namespace FamousQuoteQuiz.Models
 
         [ForeignKey("Author")]
         [Required]
-        public string AuthorID { get; set; }
+        public int AuthorID { get; set; }
 
         public virtual Author Author { get; set; }
     }

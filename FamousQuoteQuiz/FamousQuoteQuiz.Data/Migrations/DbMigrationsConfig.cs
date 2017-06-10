@@ -111,6 +111,27 @@ namespace FamousQuoteQuiz.Data.Migrations
 
                 context.SaveChanges();
             }
+
+            if (!context.QuizModes.Any())
+            {
+                var binaryMode = new QuizMode
+                {
+                    Type = QuizModeType.Binary,
+                    IsSelected = true
+                };
+
+                context.QuizModes.Add(binaryMode);
+
+                var multipleChoiceMode = new QuizMode
+                {
+                    Type = QuizModeType.MultipleChoice,
+                    IsSelected = false
+                };
+
+                context.QuizModes.Add(multipleChoiceMode);
+
+                context.SaveChanges();
+            }
         }
     }
 }

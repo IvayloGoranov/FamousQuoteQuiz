@@ -13,7 +13,7 @@ namespace FamousQuoteQuiz.Models
         }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} name must be between {1} and {2} characters long.",
+        [StringLength(50, ErrorMessage = "The {0} name must be between {1} and {2} characters long.",
             MinimumLength = 1)]
         public string Name { get; set; }
 

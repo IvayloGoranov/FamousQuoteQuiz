@@ -173,8 +173,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="GlobalConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\QuoteAndAuthorAnswersDTO.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -239,6 +241,10 @@
     <ProjectReference Include="..\FamousQuoteQuiz.Services\FamousQuoteQuiz.Services.csproj">
       <Project>{bb758482-daa0-4c27-a2ec-93af0a940eea}</Project>
       <Name>FamousQuoteQuiz.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FamousQuoteQuiz.Utils\FamousQuoteQuiz.Utils.csproj">
+      <Project>{ef402978-e5dd-49f7-8c4b-56b92c2b6cea}</Project>
+      <Name>FamousQuoteQuiz.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

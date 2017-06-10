@@ -6,13 +6,12 @@ using System.Data.Entity;
 using FamousQuoteQuiz.Data.Repositories;
 using FamousQuoteQuiz.Models;
 using FamousQuoteQuiz.Services.DTOs;
+using FamousQuoteQuiz.Utils;
 
 namespace FamousQuoteQuiz.Services
 {
     public class QuotesService : IQuotesService
     {
-        private readonly Random randomizer = new Random();
-
         private IRepository<Quote> quotesRepository;
 
         public QuotesService(IRepository<Quote> quotesRepository)
@@ -30,7 +29,7 @@ namespace FamousQuoteQuiz.Services
                     "No quotes in the database. Please populate db with quotes first.");
             }
 
-            int randomQuoteId = this.randomizer.Next(1, quotesCount + 1);
+            int randomQuoteId = StaticRandomizer.RandomNumber(1, quotesCount + 1);
 
             var randomQuote = await this.quotesRepository
                                         .GetAll()
@@ -40,6 +39,18 @@ namespace FamousQuoteQuiz.Services
                                         .FirstOrDefaultAsync();
 
             return randomQuote;
+        }
+
+        public async Task<QuoteDTO> GetQuoteById(int id)
+        {
+            var quote = await this.quotesRepository
+                                        .GetAll()
+                                        .Include(x => x.Author)
+                                        .Where(x => x.Id == id)
+                                        .Select(QuoteDTO.MapToDTO)
+                                        .FirstOrDefaultAsync();
+
+            return quote;
         }
     }
 }

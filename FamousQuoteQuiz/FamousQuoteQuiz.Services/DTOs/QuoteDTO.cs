@@ -13,11 +13,14 @@ namespace FamousQuoteQuiz.Services.DTOs
             {
                 return x => new QuoteDTO
                 {
+                    Id = x.Id,
                     Content = x.Content,
                     Author = x.Author.Name
                 };
             }
         }
+
+        public int Id { get; set; }
 
         public string Content { get; set; }
 

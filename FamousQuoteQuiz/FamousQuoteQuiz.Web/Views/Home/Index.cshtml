@@ -1,4 +1,7 @@
-﻿@{
+﻿@using FamousQuoteQuiz.Models
+@model FamousQuoteQuiz.Web.ViewModels.QuoteAndAuthorAnswersDTO
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -13,34 +16,40 @@
 <div class="row">
     <div class="col-md-12 servive-block servive-block-pink">
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            @Model.Quote.Content
         </p>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <p class="text-muted text-center">
-            James Baldwin?
-        </p>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12 text-center">
-        @Html.ActionLink("Yes", "Index", null, new { @class = "btn btn-success" })
-        @Html.ActionLink("No", "Index", null, new { @class = "btn btn-danger" })
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12 text-center">
-        <div class="btn-group-vertical">
-            @Html.ActionLink("->Pesho", "Index", null, new { @class = "btn btn-primary" })
-            @Html.ActionLink("->Kolyo", "Index", null, new { @class = "btn btn-primary" })
-            @Html.ActionLink("->Gosho", "Index", null, new { @class = "btn btn-primary" })
+@if (Model.QuizModeType == QuizModeType.Binary)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <p class="text-muted text-center">
+                @Model.AuthorAnswers.First()
+            </p>
         </div>
     </div>
-</div>
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            @Html.ActionLink("Yes", "Index", null, new { @class = "btn btn-success" })
+            @Html.ActionLink("No", "Index", null, new { @class = "btn btn-danger" })
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="btn-group-vertical">
+                @Html.ActionLink("->" + Model.AuthorAnswers[0], "Index", null, new { @class = "btn btn-primary" })
+                @Html.ActionLink("->" + Model.AuthorAnswers[1], "Index", null, new { @class = "btn btn-primary" })
+                @Html.ActionLink("->" + Model.AuthorAnswers[2], "Index", null, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+    </div>
+}
+
+
+

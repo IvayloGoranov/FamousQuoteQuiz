@@ -49,9 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\QuoteDTO.cs" />
     <Compile Include="IModesService.cs" />
+    <Compile Include="IQuotesService.cs" />
     <Compile Include="ModesService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuotesService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FamousQuoteQuiz.Data\FamousQuoteQuiz.Data.csproj">

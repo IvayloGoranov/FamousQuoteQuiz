@@ -37,6 +37,8 @@ namespace FamousQuoteQuiz.Web.Controllers
             {
                 await this.modesService.UpdateMode(model.Type);
 
+                this.TempData["Message"] = "Quiz mode changed";
+
                 return this.RedirectToAction<HomeController>(c => c.Index());
             }
 

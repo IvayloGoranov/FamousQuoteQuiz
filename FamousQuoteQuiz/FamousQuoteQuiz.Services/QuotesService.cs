@@ -7,6 +7,7 @@ using FamousQuoteQuiz.Models;
 using FamousQuoteQuiz.Services.DTOs;
 using FamousQuoteQuiz.Utils;
 using FamousQuoteQuiz.Data;
+using System.Collections.Generic;
 
 namespace FamousQuoteQuiz.Services
 {
@@ -49,6 +50,12 @@ namespace FamousQuoteQuiz.Services
                                         .Where(x => x.Id == id)
                                         .Select(QuoteDTO.MapToDTO)
                                         .FirstOrDefaultAsync();
+
+            if (quote == null)
+            {
+                throw new KeyNotFoundException(
+                    string.Format("No quote with id {0} found in db.", id));
+            }
 
             return quote;
         }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Linq;
 using System.Data.Entity;
 
@@ -7,6 +6,7 @@ using FamousQuoteQuiz.Data.Repositories;
 using FamousQuoteQuiz.Models;
 using FamousQuoteQuiz.Services.DTOs;
 using FamousQuoteQuiz.Utils;
+using FamousQuoteQuiz.Data;
 
 namespace FamousQuoteQuiz.Services
 {
@@ -25,7 +25,7 @@ namespace FamousQuoteQuiz.Services
 
             if (quotesCount == 0)
             {
-                throw new InvalidOperationException(
+                throw new UnpopulatedDbException(
                     "No quotes in the database. Please populate db with quotes first.");
             }
 

@@ -1,5 +1,7 @@
 ﻿using System.Web.Mvc;
 
+using FamousQuoteQuiz.Web.CustomAtttributes;
+
 namespace FamousQuoteQuiz.Web
 {
     public class FilterConfig

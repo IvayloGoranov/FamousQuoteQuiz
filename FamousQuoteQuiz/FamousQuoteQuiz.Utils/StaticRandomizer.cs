@@ -14,6 +14,5 @@ namespace FamousQuoteQuiz.Utils
                 return random.Next(min, max);
             }
         }
-
     }
 }

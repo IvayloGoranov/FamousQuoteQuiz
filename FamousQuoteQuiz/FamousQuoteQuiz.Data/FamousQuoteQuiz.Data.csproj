@@ -57,6 +57,7 @@
     <Compile Include="QuoteQuizContext.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="UnpopulatedDbException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

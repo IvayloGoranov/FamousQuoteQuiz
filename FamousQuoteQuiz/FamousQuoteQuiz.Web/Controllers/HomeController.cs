@@ -1,13 +1,14 @@
 ﻿using System.Web.Mvc;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Linq;
 
 using FamousQuoteQuiz.Services;
 using FamousQuoteQuiz.Models;
 using FamousQuoteQuiz.Web.ViewModels;
 using FamousQuoteQuiz.Services.DTOs;
 using FamousQuoteQuiz.Utils;
+using FamousQuoteQuiz.Web.CustomAtttributes;
+using FamousQuoteQuiz.Data;
 
 namespace FamousQuoteQuiz.Web.Controllers
 {
@@ -26,6 +27,7 @@ namespace FamousQuoteQuiz.Web.Controllers
         }
 
         // GET: Index
+        [HandleError(View = "UnpopulatedDbError", ExceptionType = typeof(UnpopulatedDbException))]
         public async Task<ActionResult> Index()
         {
             var viewModel = new QuoteAndAuthorAnswersDTO();
@@ -44,11 +46,7 @@ namespace FamousQuoteQuiz.Web.Controllers
                 while (authorAnswers.Count < GlobalConstants.MultipleChoiceModeDefaultAuthorsCount)
                 {
                     var randomAuthor = await this.authorsService.GetRandomAuthor();
-                    var duplicateAuthor = authorAnswers.
-                        FirstOrDefault(x => x.Equals(randomAuthor.Name));
-                    var matchingAuthor = authorAnswers.
-                        FirstOrDefault(x => x.Equals(randomQuote.Author));
-                    if (duplicateAuthor != null || matchingAuthor != null)
+                    if (authorAnswers.Contains(randomAuthor.Name))
                     {
                         continue;
                     }
@@ -56,14 +54,47 @@ namespace FamousQuoteQuiz.Web.Controllers
                     authorAnswers.Add(randomAuthor.Name);
                 }
 
-                int randomPosition =
-                    StaticRandomizer.RandomNumber(0, GlobalConstants.MultipleChoiceModeDefaultAuthorsCount);
-                authorAnswers[randomPosition] = randomQuote.Author;
+                if (!authorAnswers.Contains(randomQuote.Author))
+                {
+                    int randomPosition =
+                        StaticRandomizer.RandomNumber(0, GlobalConstants.MultipleChoiceModeDefaultAuthorsCount);
+                    authorAnswers[randomPosition] = randomQuote.Author;
+                }
             }
 
             viewModel.AuthorAnswers = authorAnswers;
 
             return this.View(viewModel);
+        }
+
+        [AjaxChildActionOnly]
+        [HandleError(View = "UnpopulatedDbError", ExceptionType = typeof(UnpopulatedDbException))]
+        public async Task<ActionResult> ProcessAnswer(int id, string author, string answer)
+        {
+            var quote = await this.quotesService.GetQuoteById(id);
+            if (!string.IsNullOrEmpty(answer))
+            {
+                if ((answer.Equals("yes") && quote.Author.Equals(author)) ||
+                (answer.Equals("no") && !quote.Author.Equals(author)))
+                {
+                    return this.PartialView("_ProcessAnswer", 
+                        GlobalConstants.DefaultCorrectAnswerResponse + quote.Author);
+                }
+                else
+                {
+                    return this.PartialView("_ProcessAnswer", 
+                        GlobalConstants.DefaultWrongAnswerResponse + quote.Author);
+                }
+            }
+
+            if (quote.Author.Equals(author))
+            {
+                return this.PartialView("_ProcessAnswer", 
+                    GlobalConstants.DefaultCorrectAnswerResponse + quote.Author);
+            }
+
+            return this.PartialView("_ProcessAnswer", 
+                GlobalConstants.DefaultWrongAnswerResponse + quote.Author);
         }
     }
 }

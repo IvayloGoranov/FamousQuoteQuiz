@@ -6,6 +6,7 @@ using System.Web.Mvc.Expressions;
 using FamousQuoteQuiz.Web.BindingModels;
 using FamousQuoteQuiz.Services;
 using FamousQuoteQuiz.Models;
+using FamousQuoteQuiz.Data;
 
 namespace FamousQuoteQuiz.Web.Controllers
 {
@@ -20,6 +21,7 @@ namespace FamousQuoteQuiz.Web.Controllers
         
         // GET: Settings
         [HttpGet]
+        [HandleError(View = "UnpopulatedDbError", ExceptionType = typeof(UnpopulatedDbException))]
         public async Task<ActionResult> Index()
         {
             QuizModeType selectedModeType = await this.modesService.GetSelectedMode();

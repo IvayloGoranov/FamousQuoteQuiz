@@ -21,34 +21,69 @@
     </div>
 </div>
 
-@if (Model.QuizModeType == QuizModeType.Binary)
-{
-    <div class="row">
-        <div class="col-md-12">
-            <p class="text-muted text-center">
-                @Model.AuthorAnswers.First()
-            </p>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-12 text-center">
-            @Html.ActionLink("Yes", "Index", null, new { @class = "btn btn-success" })
-            @Html.ActionLink("No", "Index", null, new { @class = "btn btn-danger" })
-        </div>
-    </div>
-}
-else
-{
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <div class="btn-group-vertical">
-                @Html.ActionLink("->" + Model.AuthorAnswers[0], "Index", null, new { @class = "btn btn-primary" })
-                @Html.ActionLink("->" + Model.AuthorAnswers[1], "Index", null, new { @class = "btn btn-primary" })
-                @Html.ActionLink("->" + Model.AuthorAnswers[2], "Index", null, new { @class = "btn btn-primary" })
+<div id="results">
+
+    @if (Model.QuizModeType == QuizModeType.Binary)
+    {
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <p class="text-muted">
+                    @Model.AuthorAnswers.First()
+                </p>
             </div>
         </div>
-    </div>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <button data-url='@Url.Action("ProcessAnswer", "Home", 
+                                      new { id = Model.Quote.Id, author = Model.AuthorAnswers.First(), answer = "yes" } )'
+                        class="process-answer btn btn-success">
+                    Yes
+                </button>
+                <button data-url='@Url.Action("ProcessAnswer", "Home",
+                                      new { id = Model.Quote.Id, author = Model.AuthorAnswers.First(), answer = "no" } )'
+                        class="process-answer btn btn-danger">
+                    No
+                </button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="btn-group-vertical">
+                    @for (int i = 0; i < Model.AuthorAnswers.Count; i++)
+                    {
+                        <button data-url='@Url.Action("ProcessAnswer", "Home",
+                                      new { id = Model.Quote.Id, author = Model.AuthorAnswers[i]} )'
+                                class="process-answer btn btn-primary">
+                            ->@Model.AuthorAnswers[i]
+                        </button>
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+@section Scripts {
+    <script>
+        $('.process-answer').on('click', function (evt) {
+            evt.preventDefault();
+            evt.stopPropagation();
+
+            var resultsDiv = $('#results');
+            var url = $(this).data('url');
+
+            $.get(url, function (partialView) {
+                resultsDiv.html(partialView);
+            });
+        });
+    </script>
 }
 
 

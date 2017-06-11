@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Data.Entity;
 
@@ -7,6 +6,7 @@ using FamousQuoteQuiz.Data.Repositories;
 using FamousQuoteQuiz.Models;
 using FamousQuoteQuiz.Services.DTOs;
 using FamousQuoteQuiz.Utils;
+using FamousQuoteQuiz.Data;
 
 namespace FamousQuoteQuiz.Services
 {
@@ -25,7 +25,7 @@ namespace FamousQuoteQuiz.Services
 
             if (authorsCount == 0)
             {
-                throw new InvalidOperationException(
+                throw new UnpopulatedDbException(
                     "No authors in the database. Please populate db with authors first.");
             }
 

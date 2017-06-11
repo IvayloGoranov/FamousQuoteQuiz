@@ -4,6 +4,7 @@ using System.Data.Entity;
 
 using FamousQuoteQuiz.Data.Repositories;
 using FamousQuoteQuiz.Models;
+using FamousQuoteQuiz.Data;
 
 namespace FamousQuoteQuiz.Services
 {
@@ -21,6 +22,12 @@ namespace FamousQuoteQuiz.Services
             var selectedMode = await modesRepository.GetAll()
                                                     .Where(x => x.IsSelected)
                                                     .FirstOrDefaultAsync();
+            if (selectedMode == null)
+            {
+                throw new UnpopulatedDbException(
+                    "No modes in the database. Please populate db with quiz modes first.");
+            }
+
 
             return selectedMode.Type;
         }

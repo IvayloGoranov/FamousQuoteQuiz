@@ -2,6 +2,7 @@ using System.Data.Entity;
 using System.Threading.Tasks;
 
 using FamousQuoteQuiz.Models;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace FamousQuoteQuiz.Data
 {
@@ -18,9 +19,36 @@ namespace FamousQuoteQuiz.Data
 
         public IDbSet<QuizMode> QuizModes { get; set; }
 
+        public IDbSet<Answer> Answers { get; set; }
+
+        public IDbSet<Question> Questions { get; set; }
+
+        public IDbSet<Quizz> Quizzes { get; set; }
+
         public static QuoteQuizContext Create()
         {
             return new QuoteQuizContext();
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
+            modelBuilder.Entity<Question>()
+                   .HasRequired(x => x.Answers)
+                   .WithRequiredPrincipal(x => x.Question);
+
+            modelBuilder.Entity<Answer>()
+                .HasMany<Author>(s => s.Authors)
+                .WithMany(c => c.Answers)
+                .Map(cs =>
+                {
+                    cs.MapLeftKey("AnswerId");
+                    cs.MapRightKey("AuthorId");
+                    cs.ToTable("Answers_Authors");
+                });
+
+            base.OnModelCreating(modelBuilder);
         }
 
         public override int SaveChanges()

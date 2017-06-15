@@ -8,11 +8,17 @@ namespace FamousQuoteQuiz.Data
 {
     public interface IQuoteQuizContext
     {
-       IDbSet<Author> Authors { get; set; }
+        IDbSet<Author> Authors { get; set; }
 
         IDbSet<Quote> Quotes { get; set; }
 
         IDbSet<QuizMode> QuizModes { get; set; }
+
+        IDbSet<Answer> Answers { get; set; }
+
+        IDbSet<Question> Questions { get; set; }
+
+        IDbSet<Quizz> Quizzes { get; set; }
 
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
 

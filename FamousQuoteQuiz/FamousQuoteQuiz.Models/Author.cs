@@ -6,10 +6,12 @@ namespace FamousQuoteQuiz.Models
     public class Author : BaseModel<int>
     {
         private ICollection<Quote> quotes;
+        private ICollection<Answer> answers;
 
         public Author()
         {
             this.quotes = new HashSet<Quote>();
+            this.answers = new HashSet<Answer>();
         }
 
         [Required]
@@ -27,6 +29,19 @@ namespace FamousQuoteQuiz.Models
             set
             {
                 this.quotes = value;
+            }
+        }
+
+        public virtual ICollection<Answer> Answers
+        {
+            get
+            {
+                return this.answers;
+            }
+
+            set
+            {
+                this.answers = value;
             }
         }
     }
